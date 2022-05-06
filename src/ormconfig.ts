@@ -1,5 +1,5 @@
 import { ConnectionOptions } from 'typeorm';
-import {ConfigModule} from "@nestjs/config";
+import { ConfigModule } from "@nestjs/config";
 import { join } from 'path';
 
 
