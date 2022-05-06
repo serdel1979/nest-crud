@@ -4,15 +4,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import ormconfig from './ormconfig';
+import { ProductoModule } from './producto/producto.module';
+import { ProductoEntity } from './producto/entity/producto.entity';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: '.env',
-      isGlobal: true
-    }),
+    ProductoModule,
+    ProductoEntity,
     TypeOrmModule.forRoot(ormconfig),
-    
   ],
   controllers: [AppController],
   providers: [AppService],

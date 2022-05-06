@@ -14,8 +14,16 @@ const config: ConnectionOptions = {
     password: process.env.TYPEORM_PASSWORD,
     database: process.env.TYPEORM_DATABASE,
     entities: [join(__dirname, '**', '*.entity.{ts,js}')],
+    migrations: ['src/producto/migration/*.ts'],
+    subscribers: ['src/subscriber/**/*.ts'],
     synchronize: true,
-    logging: true
+    migrationsRun: true,
+    logging: true,
+    cli: {
+        entitiesDir: 'src/producto/entity',
+        migrationsDir: './src/migrations',
+        subscribersDir: 'src/subscriber'
+    }
 }
 
 export = config;
