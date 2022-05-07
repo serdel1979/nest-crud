@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ProductoService } from './producto.service';
 import { ProductoDto } from './dto/producto.dto';
 
@@ -17,11 +17,13 @@ export class ProductoController {
         return await this.productoService.findById(id);
     }
 
+    @UsePipes(new ValidationPipe({whitelist: true})) //<-- whitelist ignora los campos que no son parte del dto
     @Post()
     async create(@Body() dto: ProductoDto){
         return await this.productoService.create(dto);
     }
 
+    @UsePipes(new ValidationPipe({whitelist: true}))
     @Put(':id')
     async update(@Param('id', ParseIntPipe)id: number,@Body() dto: ProductoDto){
         let nuevoProducto = dto;
