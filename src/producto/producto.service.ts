@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProductoRepository } from './producto.repository';
 import { ProductoDto } from './dto/producto.dto';
 import { ProductoEntity } from './entity/producto.entity';
+import { Producto } from './producto.class';
 
 @Injectable()
 export class ProductoService {
@@ -12,9 +13,6 @@ export class ProductoService {
 
     async getAll():Promise<ProductoEntity[]>{
        const list = await this.productoRepository.find();
-       if (list.length){
-            throw new NotFoundException({message: 'La lista está vacía'});
-       }
        return list;  
     }
 
@@ -37,12 +35,10 @@ export class ProductoService {
         return {message : `Producto ${producto.name} creado`};
      }
 
-     async update(id: number, dto: ProductoDto):Promise<any>{
-        const producto = await this.findById(id);
-        dto.nombre? producto.name = dto.nombre : producto.name = producto.name;
-        dto.precio? producto.precio = dto.precio : producto.precio = producto.precio;
-        await this.productoRepository.save(producto);
-        return {message : `Producto ${producto.name} actualizado`};
+     async update(id: number, dto: ProductoDto):Promise<Producto>{
+        let producto = await this.findById(id);
+        let updated = Object.assign(producto,dto);
+        return this.productoRepository.save(updated);
      }
 
      async delete(id: number):Promise<any>{
