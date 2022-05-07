@@ -25,15 +25,8 @@ export class ProductoService {
       return producto;
    }
 
-   async findByNombre(nombre: string): Promise<ProductoEntity> {
-      console.log("buscando por nombre ",nombre);
-      let producto = await this.productoRepository.findOne(nombre);
-      console.log("producto encontrado ",producto);
-      return producto;
-   }
-
    async create(dto: ProductoDto): Promise<any> {
-      const existe = await this.findByNombre(dto.name);
+      let existe = await this.productoRepository.findOne({ where: {name: dto.name}});
       if (existe) throw new BadRequestException({ message: "ese nombre ya existe" });
       const producto = this.productoRepository.create(dto);
       await this.productoRepository.save(producto);
