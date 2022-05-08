@@ -30,7 +30,7 @@ export class ProductoService {
       if (existe) throw new BadRequestException({ message: "ese nombre ya existe" });
       const producto = this.productoRepository.create(dto);
       await this.productoRepository.save(producto);
-      return new MessageDto('Producto creado');
+      return new MessageDto(`producto ${dto.name} creado`);
    }
 
    async update(id: number, dto: ProductoDto): Promise<any>{
@@ -42,7 +42,7 @@ export class ProductoService {
       }
       let updated = Object.assign(toUpdate, dto);
       this.productoRepository.save(updated);
-      return new MessageDto('Producto actualizado');
+      return new MessageDto(`Producto ${dto.name} actualizado`);
    }
 
    async delete(id: number): Promise<any> {
